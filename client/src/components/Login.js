@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import { Link,Navigate } from "react-router-dom";
+import { Form, Button, Alert } from "react-bootstrap";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../js/action/authAction";
 const Login = () => {
@@ -26,6 +26,9 @@ const Login = () => {
         <Navigate to="/profile" />
       ) : (
         <Form className="col-md-7" onSubmit={handleSubmit}>
+          {error && error.id === "login" && (
+            <Alert variant="danger">{error && error.msg}</Alert>
+          )}
           <h1>Login</h1>
           <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>

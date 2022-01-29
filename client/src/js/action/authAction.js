@@ -3,10 +3,10 @@ import {
   GET_PROFILE,
   GET_PROFILE_FAIL,
   GET_PROFILE_SUCCESS,
-
   LOGIN_USER,
   LOGIN_USER_FAIL,
   LOGIN_USER_SUCCESS,
+  LOGOUT,
   REGISTER_USER,
   REGISTER_USER_FAIL,
   REGISTER_USER_SUCCESS,
@@ -20,7 +20,10 @@ export const registerUser = (user) => async (dispatch) => {
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
     localStorage.setItem("token", data.token);
   } catch (error) {
-    dispatch({ type: REGISTER_USER_FAIL, payload: error.response.data });
+    dispatch({
+      type: REGISTER_USER_FAIL,
+      payload: { msg: error.response.data.err, id: "register" },
+    });
   }
 };
 
@@ -31,7 +34,10 @@ export const loginUser = (user) => async (dispatch) => {
     dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
     localStorage.setItem("token", data.token);
   } catch (error) {
-    dispatch({ type: LOGIN_USER_FAIL, payload: error.response.data });
+    dispatch({
+      type: LOGIN_USER_FAIL,
+      payload: { msg: error.response.data.err, id: "login" },
+    });
   }
 };
 
@@ -50,4 +56,10 @@ export const getProfile = () => async (dispatch) => {
   } catch (error) {
     dispatch({ type: GET_PROFILE_FAIL, payload: error.response.data });
   }
+};
+
+//lOGOUT
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem("token");
+  dispatch({ type: LOGOUT });
 };
